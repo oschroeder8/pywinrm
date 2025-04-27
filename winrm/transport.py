@@ -191,16 +191,18 @@ class Transport(object):
         settings = session.merge_environment_settings(url=self.endpoint, proxies=proxies, stream=None, verify=None, cert=None)
 
         # Retry on connection errors, with a backoff factor
-        retries = requests.packages.urllib3.util.retry.Retry(total=self.reconnection_retries,
-                                                             connect=self.reconnection_retries,
-                                                             read=0,
-                                                             redirect=0,
-                                                             status=self.reconnection_retries,
-                                                             other=0,
-                                                             status_forcelist=(425, 429, 503),
-                                                             backoff_factor=self.reconnection_backoff)
-        session.mount('http://', requests.adapters.HTTPAdapter(max_retries=retries))
-        session.mount('https://', requests.adapters.HTTPAdapter(max_retries=retries))
+        retries = requests.packages.urllib3.util.retry.Retry(
+            total=self.reconnection_retries,
+            connect=self.reconnection_retries,
+            read=0,
+            redirect=0,
+            status=self.reconnection_retries,
+            other=0,
+            status_forcelist=(425, 429, 503),
+            backoff_factor=self.reconnection_backoff,
+        )
+        session.mount("http://", requests.adapters.HTTPAdapter(max_retries=retries))
+        session.mount("https://", requests.adapters.HTTPAdapter(max_retries=retries))
 
         global DISPLAYED_PROXY_WARNING
 
