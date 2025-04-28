@@ -6,6 +6,7 @@ import warnings
 
 import requests
 import requests.auth
+import urllib3
 
 from winrm.encryption import Encryption
 from winrm.exceptions import InvalidCredentialsError, WinRMError, WinRMTransportError
@@ -191,7 +192,7 @@ class Transport(object):
         settings = session.merge_environment_settings(url=self.endpoint, proxies=proxies, stream=None, verify=None, cert=None)
 
         # Retry on connection errors, with a backoff factor
-        retries = requests.packages.urllib3.util.retry.Retry(
+        retries = urllib3.util.retry.Retry(
             total=self.reconnection_retries,
             connect=self.reconnection_retries,
             read=0,
