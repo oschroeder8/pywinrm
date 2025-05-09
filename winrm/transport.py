@@ -72,7 +72,7 @@ class Transport(object):
         cert_key_pem: str | None = None,
         read_timeout_sec: int | None = None,
         reconnection_retries: int | None = 0,
-        reconnection_backoff: float | None = 2.0,
+        reconnection_backoff: float = 2.0,
         server_cert_validation: t.Literal["validate", "ignore"] | None = "validate",
         kerberos_delegation: bool | str = False,
         kerberos_hostname_override: str | None = None,
